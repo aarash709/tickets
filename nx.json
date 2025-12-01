@@ -52,7 +52,12 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/gateway-e2e/**/*", "apps/inventory-e2e/**/*"]
+      "exclude": [
+        "apps/gateway-e2e/**/*",
+        "apps/inventory-e2e/**/*",
+        "apps/payment-e2e/**/*",
+        "apps/booking-e2e/**/*"
+      ]
     }
   ],
   "targetDefaults": {

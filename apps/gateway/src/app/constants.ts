@@ -1,0 +1,1 @@
+export const InventoryServive = "invnetory_service"
