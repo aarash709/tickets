@@ -10,11 +10,17 @@ import { InventoryServive } from './constants';
       {
         name: InventoryServive,
         transport: Transport.KAFKA,
-        options: { client: { clientId: 'gateway', brokers: ['localhost:9092'] }, consumer: { groupId: "inventory-consumer" } },
+        options: {
+          client: {
+            clientId: 'invnetory',
+            brokers: ['localhost:9092'],
+          },
+          consumer: { groupId: 'inventory-consumer' },
+        },
       },
     ]),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

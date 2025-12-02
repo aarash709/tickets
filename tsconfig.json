@@ -26,6 +26,9 @@
     },
     {
       "path": "./apps/booking"
+    },
+    {
+      "path": "./libs/shared"
     }
   ]
 }
