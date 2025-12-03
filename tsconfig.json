@@ -35,6 +35,12 @@
     },
     {
       "path": "./apps/seats-service"
+    },
+    {
+      "path": "./apps/reservation-service-e2e"
+    },
+    {
+      "path": "./apps/reservation-service"
     }
   ]
 }
