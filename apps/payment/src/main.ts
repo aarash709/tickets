@@ -9,19 +9,17 @@ import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.KAFKA,
-    options: {
-      client: { brokers: ["localhost:9092"] },
-      consumer:{
-        groupId:"payment_consumer"
-      }
-    }
-  });
-  await app.listen();
-  Logger.log(
-    `🚀 Payment is listening to kafka`,
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.NATS,
+      options: {
+        servers: ['nats://localhost:4222'],
+      },
+    },
   );
+  await app.listen();
+  Logger.log(`🚀 Payment service is listening to NATS`);
 }
 
 bootstrap();

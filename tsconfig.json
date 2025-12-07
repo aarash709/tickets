@@ -10,31 +10,13 @@
       "path": "./apps/gateway"
     },
     {
-      "path": "./apps/inventory-e2e"
-    },
-    {
-      "path": "./apps/inventory"
-    },
-    {
       "path": "./apps/payment-e2e"
     },
     {
       "path": "./apps/payment"
     },
     {
-      "path": "./apps/booking-e2e"
-    },
-    {
-      "path": "./apps/booking"
-    },
-    {
       "path": "./libs/shared"
-    },
-    {
-      "path": "./apps/seats-service-e2e"
-    },
-    {
-      "path": "./apps/seats-service"
     },
     {
       "path": "./apps/reservation-service-e2e"

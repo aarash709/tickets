@@ -2,23 +2,32 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { InventoryServive } from './constants';
+import {
+  InventoryServive,
+  PaymentService,
+  ReserveService as ReservationService,
+} from './constants';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: InventoryServive,
-        transport: Transport.KAFKA,
+        name: ReservationService,
+        transport: Transport.NATS,
         options: {
-          client: {
-            clientId: 'invnetory',
-            brokers: ['localhost:9092'],
-          },
-          consumer: { groupId: 'inventory-consumer' },
+          servers: ['nats://localhost:4222'],
+        },
+      },
+      {
+        name: PaymentService,
+        transport: Transport.NATS,
+        options: {
+          servers: ['nats://localhost:4222'],
         },
       },
     ]),
+    CacheModule.register({ isGlobal: true }),
   ],
   controllers: [AppController],
   providers: [AppService],

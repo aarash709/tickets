@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { DatabaseModule } from '../database/database.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [],
+  imports: [
+    ClientsModule.register([]),
+    DatabaseModule,
+    CacheModule.register({ isGlobal: true }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -8,3 +8,5 @@ export * from './payment/payment.patterns';
 export * from './payment/payment.dto';
 
 export * from './inventory/inventory.dto';
+
+export * from './seats/seat.patterns';
