@@ -1,13 +1,12 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
 import { InventoryDto, PAYMENT_PATTERNS } from '@tickets/shared';
+import { NATSService } from './constants';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject('nats-service') private readonly natsClient: ClientNats,
-  ) {}
-  async paySeat(data: InventoryDto) {
+  constructor(@Inject(NATSService) private readonly natsClient: ClientNats) {}
+  async paySeat(data: { seatId: string; userId: number }) {
     Logger.log('processing payment..');
 
     //simulated payment
@@ -15,7 +14,7 @@ export class AppService {
     const isPaymentSuccessful = Math.random() > 0.1;
 
     if (isPaymentSuccessful) {
-      this.natsClient.emit(PAYMENT_PATTERNS.Succeed, { data });
+      this.natsClient.emit(PAYMENT_PATTERNS.Succeed, data);
       Logger.log('payment is successful!');
     } else {
       this.natsClient.emit(PAYMENT_PATTERNS.Failed, {

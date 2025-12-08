@@ -19,7 +19,7 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  Logger.log(`🚀 Reservation service is listening to NATS`);
+  Logger.log(`🚀 Reservation service is listening on NATS`);
 }
 
 bootstrap();
