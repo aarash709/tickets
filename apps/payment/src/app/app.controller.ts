@@ -1,13 +1,10 @@
-import { Controller, Get, Inject, Logger } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ClientKafka, EventPattern, Payload } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import {
-  BOOKING_PATTERNS,
   InventoryDto,
   PAYMENT_PATTERNS,
-  PaymentResultDto,
 } from '@tickets/shared';
-import { BookingService, InventoryServive } from './constants';
 
 @Controller()
 export class AppController {

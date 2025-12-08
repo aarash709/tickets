@@ -1,2 +1,1 @@
-export const BookingService =  "booking_service"
-export const InventoryServive =  "inventory_service"
+export const NATSService =  "nats_service"

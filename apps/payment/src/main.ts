@@ -19,7 +19,7 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  Logger.log(`🚀 Payment service is listening to NATS`);
+  Logger.log(`🚀 Payment service is listening on NATS`);
 }
 
 bootstrap();
