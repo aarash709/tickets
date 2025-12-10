@@ -10,3 +10,6 @@ export * from './payment/payment.dto';
 export * from './inventory/inventory.dto';
 
 export * from './seats/seat.patterns';
+
+export * from './config/client.config.module';
+export * from './config/client.config.service';

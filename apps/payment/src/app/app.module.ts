@@ -1,22 +1,25 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { NATSService } from './constants';
+import {
+  ClientProxyFactory,
+} from '@nestjs/microservices';
+import { NatsService } from './constants';
+import { ClientConfigModule, ClientConfigService } from '@tickets/shared';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: NATSService,
-        transport: Transport.NATS,
-        options: {
-          servers: ['nats://localhost:4222'],
-        },
-      },
-    ]),
-  ],
+  imports: [ClientConfigModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      inject: [ClientConfigService],
+      provide: NatsService,
+      useFactory: (config: ClientConfigService) => {
+        const natsOptions = config.natsOpions;
+        return ClientProxyFactory.create(natsOptions);
+      },
+    },
+  ],
 })
 export class AppModule {}

@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
-import { RpcException } from '@nestjs/microservices';
 import { MurLock } from 'murlock/dist/decorators';
 import { MurLockService } from 'murlock';
 
@@ -15,18 +14,18 @@ export class AppService {
 
   async handlePaymentSuccessful(data: { seatId: string; userId: number }) {
     const lockKey = `seatLock:${data.seatId}`;
-    const owner = await this.cache.get(lockKey);
-    Logger.log(`${owner}`);
+    // const owner = await this.cache.get(lockKey);
+    // Logger.log(`${owner}`);
 
-    if (owner !== data.userId) {
-      Logger.log('another user tried to pay returning...');
-      return;
-    }
+    // if (owner !== data.userId) {
+    //   Logger.log('another user tried to pay returning...');
+    //   return;
+    // }
     await this.database.seat.update({
       where: { seatId: data.seatId },
       data: { status: 'AVAILABLE' },
     });
-    await this.cache.del(lockKey);
+    // await this.cache.del(lockKey);
     Logger.log('seat is now released');
   }
 

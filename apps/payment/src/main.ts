@@ -9,12 +9,13 @@ import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
+  const natsUrl = process.env.NATS_URL as string;
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.NATS,
       options: {
-        servers: ['nats://localhost:4222'],
+        servers: natsUrl,
       },
     },
   );

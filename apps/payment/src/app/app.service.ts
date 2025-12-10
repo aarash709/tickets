@@ -1,11 +1,11 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
-import { InventoryDto, PAYMENT_PATTERNS } from '@tickets/shared';
-import { NATSService } from './constants';
+import { PAYMENT_PATTERNS } from '@tickets/shared';
+import { NatsService } from './constants';
 
 @Injectable()
 export class AppService {
-  constructor(@Inject(NATSService) private readonly natsClient: ClientNats) {}
+  constructor(@Inject(NatsService) private readonly natsClient: ClientNats) {}
   async paySeat(data: { seatId: string; userId: number }) {
     Logger.log('processing payment..');
 
