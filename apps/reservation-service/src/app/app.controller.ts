@@ -13,12 +13,16 @@ export class AppController {
   }
 
   @EventPattern(PAYMENT_PATTERNS.Succeed)
-  async handlePaymentSuccessful(data: { seatId: string; userId: number }) {
+  async handlePaymentSuccessful(data: {
+    reservationId: string;
+    seatId: string;
+    userId: number;
+  }) {
     this.appService.handlePaymentSuccessful(data);
   }
 
   @EventPattern(PAYMENT_PATTERNS.Failed)
-  async handlePaymentFailed(data: { seatId: string }) {
+  async handlePaymentFailed(data: { reservationId: string; seatId: string }) {
     this.appService.releaseSeat(data);
   }
 }

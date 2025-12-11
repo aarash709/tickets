@@ -4,32 +4,41 @@ import { AppService } from './app.service';
 import { DatabaseModule } from '../database/database.module';
 import KeyvRedis from '@keyv/redis';
 import { CacheModule } from '@nestjs/cache-manager';
-import { MurLockModule } from 'murlock';
 import { ClientConfigModule, ClientConfigService } from '@tickets/shared';
+import { RedlockModule } from 'nestjs-redlock-universal';
+import { NodeRedisAdapter } from 'redlock-universal';
+import { createClient } from 'redis';
 
 @Module({
   imports: [
     DatabaseModule,
     ClientConfigModule,
-    MurLockModule.forRootAsync({
+    RedlockModule.forRootAsync({
       imports: [ClientConfigModule],
       useFactory: async (config: ClientConfigService) => {
+        const redisUrl = config.getRedisURL();
+        const redis = createClient({ url: redisUrl });
+        redis.connect();
         return {
-          redisOptions: { url: config.getRedisURL() },
-          wait: 1000,
-          maxAttempts: 3,
-          logLevel: 'log',
-          lockKeyPrefix: 'custom',
+          nodes: [new NodeRedisAdapter(redis)],
+          defaultTtl: 30000, // Default lock TTL in milliseconds
+          retryAttempts: 3, // Number of retry attempts
+          retryDelay: 200, // Delay between retries in milliseconds
+          quorum: 2, // Minimum nodes for quorum (default: majority)
+          // logger: winstonLogger,    // Optional: Winston, Pino, or Bunyan logger}
         };
       },
       inject: [ClientConfigService],
     }),
     CacheModule.registerAsync({
-      useFactory: async () => {
+      imports: [ClientConfigModule],
+      useFactory: async (config: ClientConfigService) => {
+        const redisUrl = config.getRedisURL();
         return {
-          stores: [new KeyvRedis(process.env.REDIS_URL)],
+          stores: [new KeyvRedis(redisUrl)],
         };
       },
+      inject: [ClientConfigService],
     }),
   ],
   controllers: [AppController],

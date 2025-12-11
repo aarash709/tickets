@@ -8,7 +8,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @EventPattern(PAYMENT_PATTERNS.Pay)
-  async handlePayment(@Payload() data: { seatId: string; userId: number }) {
+  async handlePayment(
+    @Payload() data: { reservationId: string; seatId: string; userId: number },
+  ) {
     this.appService.paySeat(data);
   }
 }

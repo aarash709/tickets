@@ -40,16 +40,28 @@ export class AppController {
   @Post('seat/reserve')
   async reserveSeat(@Body() reserveData: { seatId: string; userId: number }) {
     const seat = firstValueFrom(
-      this.natsClient.send<{ reservationId: number }, typeof reserveData>(
-        SEAT_PATTERNS.TryReserve,
-        reserveData,
-      ),
+      this.natsClient.send<
+        {
+          seatId: string;
+          status: string;
+          reservationId: string;
+          lockExpiresIn: number;
+        },
+        typeof reserveData
+      >(SEAT_PATTERNS.TryReserve, reserveData),
     );
     return seat;
   }
 
   @Post('seat/pay')
-  async paySeat(@Body() reservationData: { seatId: string; userId: number }) {
+  async paySeat(
+    @Body()
+    reservationData: {
+      reservationId: string;
+      seatId: string;
+      userId: number;
+    },
+  ) {
     console.log(`pay data: `, reservationData);
     firstValueFrom(this.natsClient.emit(PAYMENT_PATTERNS.Pay, reservationData));
     return reservationData;

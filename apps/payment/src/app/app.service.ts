@@ -6,7 +6,11 @@ import { NatsService } from './constants';
 @Injectable()
 export class AppService {
   constructor(@Inject(NatsService) private readonly natsClient: ClientNats) {}
-  async paySeat(data: { seatId: string; userId: number }) {
+  async paySeat(data: {
+    reservationId: string;
+    seatId: string;
+    userId: number;
+  }) {
     Logger.log('processing payment..');
 
     //simulated payment
