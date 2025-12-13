@@ -16,6 +16,7 @@ import {
   SEAT_PATTERNS,
 } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -24,12 +25,13 @@ export class AppController {
     @Inject(NATSService)
     private readonly natsClient: ClientNats,
   ) {}
-
+  
   @Get()
   getData() {
     return this.appService.getData();
   }
 
+  @ApiOperation({ description: 'Gets all seats from an ongoind event' })
   @Get('seat/status/:id')
   async getBookingStatus(@Param('id', ParseIntPipe) id: string) {
     console.log(`status seatid: ${id}`);
@@ -37,6 +39,7 @@ export class AppController {
     return { status: BOOKING_STATUS.CHECKING, bookingId: id };
   }
 
+  @ApiOperation({ description: 'Reserves a seat from an ongoing event' })
   @Post('seat/reserve')
   async reserveSeat(@Body() reserveData: { seatId: string; userId: number }) {
     const seat = firstValueFrom(
@@ -53,6 +56,7 @@ export class AppController {
     return seat;
   }
 
+  @ApiOperation({ description: 'Pays the reserved seat' })
   @Post('seat/pay')
   async paySeat(
     @Body()
