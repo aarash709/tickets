@@ -9,10 +9,9 @@ import {
 } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
 import { NATSService } from './..//constants';
-import { BOOKING_STATUS, SEAT_PATTERNS } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { ReserveSeatDto } from '../dto/reserve.seat.dto';
+import { ReserveSeatDto, SEAT_PATTERNS } from '@tickets/shared';
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
 
 @ApiBearerAuth()
@@ -28,7 +27,7 @@ export class SeatsController {
   async getBookingStatus(@Param('id', ParseIntPipe) id: string) {
     console.log(`status seatid: ${id}`);
     //connect to redis
-    return { status: BOOKING_STATUS.CHECKING, bookingId: id };
+    return { status: "CHECKING", bookingId: id };
   }
 
   @ApiOperation({ description: 'Reserves a seat from an ongoing event' })

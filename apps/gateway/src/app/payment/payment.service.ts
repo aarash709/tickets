@@ -4,7 +4,7 @@ import { NATSService } from './..//constants';
 import { PAYMENT_PATTERNS } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { PaymentDto } from '../dto/payment.dto';
+import { PaymentDto } from '@tickets/shared';
 
 @ApiBearerAuth()
 @Controller()

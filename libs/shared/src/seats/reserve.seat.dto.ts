@@ -9,5 +9,5 @@ export class ReserveSeatDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  userId!: number;
+  userId!: string;
 }
