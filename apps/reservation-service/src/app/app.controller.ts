@@ -1,7 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
-import { PAYMENT_PATTERNS, SEAT_PATTERNS } from '@tickets/shared';
+import {
+  EVENT_PATTERNS,
+  PAYMENT_PATTERNS,
+  SEAT_PATTERNS,
+} from '@tickets/shared';
 
 @Controller()
 export class AppController {
@@ -9,7 +13,17 @@ export class AppController {
 
   @MessagePattern(SEAT_PATTERNS.TryReserve)
   async reserve(@Payload() data: { seatId: string; userId: number }) {
-    return this.appService.reserve(data);
+    return await this.appService.reserve(data);
+  }
+
+  @MessagePattern(EVENT_PATTERNS.GET_SEAT)
+  async getSeat(@Payload() data: { seatId: string; userId: number }) {
+    return await this.appService.getSeat(data);
+  }
+
+  @MessagePattern(EVENT_PATTERNS.GET_ALL_SEATS)
+  async getAllSeats(@Payload() data: { eventId: string; userId: number }) {
+    return await this.appService.getAllSeats(data);
   }
 
   @EventPattern(PAYMENT_PATTERNS.Succeed)

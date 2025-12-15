@@ -120,4 +120,16 @@ export class AppService {
     this.redlock.release(lockKey, lock);
     this.reservation.delete(data.reservationId);
   }
+
+  async getAllSeats(data: { eventId: string; userId: number }) {
+    return await this.database.seat.findMany({
+      select: { seatId: true, status: true },
+    });
+  }
+  async getSeat(data: { seatId: string; userId: number }) {
+    return await this.database.seat.findUnique({
+      where: { seatId: data.seatId },
+      select: { seatId: true, status: true },
+    });
+  }
 }

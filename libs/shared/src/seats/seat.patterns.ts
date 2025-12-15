@@ -3,4 +3,5 @@ export const SEAT_PATTERNS = {
   Reserved: 'seat.reserved',
   Booked: 'seat.booked',
   Released: 'seat.released',
+  STATUS: 'seat.status',
 };
