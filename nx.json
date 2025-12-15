@@ -58,7 +58,8 @@
         "apps/payment-e2e/**/*",
         "apps/booking-e2e/**/*",
         "apps/seats-service-e2e/**/*",
-        "apps/reservation-service-e2e/**/*"
+        "apps/reservation-service-e2e/**/*",
+        "apps/auth-service-e2e/**/*"
       ]
     }
   ],

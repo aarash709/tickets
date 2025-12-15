@@ -23,6 +23,12 @@
     },
     {
       "path": "./apps/reservation-service"
+    },
+    {
+      "path": "./apps/auth-service-e2e"
+    },
+    {
+      "path": "./apps/auth-service"
     }
   ]
 }
