@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
 import { NATSService } from './..//constants';
@@ -15,12 +16,14 @@ import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import {
   CreateEventDto,
   EVENT_PATTERNS,
+  PassportJwtGuard,
   ReserveSeatDto,
   SEAT_PATTERNS,
 } from '@tickets/shared';
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
 
 @ApiBearerAuth()
+@UseGuards(PassportJwtGuard)
 @Controller()
 export class SeatsController {
   constructor(

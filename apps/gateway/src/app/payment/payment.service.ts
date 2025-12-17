@@ -1,12 +1,13 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
 import { NATSService } from './..//constants';
-import { PAYMENT_PATTERNS } from '@tickets/shared';
+import { PassportJwtGuard, PAYMENT_PATTERNS } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { PaymentDto } from '@tickets/shared';
 
 @ApiBearerAuth()
+@UseGuards(PassportJwtGuard)
 @Controller()
 export class PaymentController {
   constructor(

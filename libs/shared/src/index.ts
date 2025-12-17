@@ -12,3 +12,8 @@ export * from './config/client.config.service';
 export * from './event/event.patterns';
 
 export * from './event/event.dto';
+
+export * from './auth/jwt.gurad';
+export * from './auth/jwt.strategy';
+
+export * from './auth/auth.dto';
