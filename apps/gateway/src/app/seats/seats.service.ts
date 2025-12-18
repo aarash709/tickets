@@ -16,11 +16,11 @@ import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import {
   CreateEventDto,
   EVENT_PATTERNS,
-  PassportJwtGuard,
   ReserveSeatDto,
   SEAT_PATTERNS,
 } from '@tickets/shared';
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
+import { PassportJwtGuard } from '../guards/jwt.gurad';
 
 @ApiBearerAuth()
 @UseGuards(PassportJwtGuard)

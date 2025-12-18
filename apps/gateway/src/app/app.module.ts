@@ -5,17 +5,25 @@ import { ClientProxyFactory } from '@nestjs/microservices';
 import {
   ClientConfigModule,
   ClientConfigService,
-  JWTStrategy,
-  PassportJwtGuard,
+  secret,
 } from '@tickets/shared';
 import { NATSService } from './constants';
 import { CacheModule } from '@nestjs/cache-manager';
 import { SeatsController } from './seats/seats.service';
 import { PaymentController } from './payment/payment.service';
 import { AuthController } from './auth/auth.controller';
+import { JWTStrategy } from './guards/jwt.strategy';
+import { PassportJwtGuard } from './guards/jwt.gurad';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [CacheModule.register({ isGlobal: false }), ClientConfigModule],
+  imports: [
+    CacheModule.register({ isGlobal: false }),
+    JwtModule.register({
+      secret: secret,
+    }),
+    ClientConfigModule,
+  ],
   controllers: [
     AppController,
     SeatsController,

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { secret } from './constants';
+import { secret } from '@tickets/shared';
 
 @Module({
   imports: [

@@ -1,10 +1,11 @@
 import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { ClientNats } from '@nestjs/microservices';
 import { NATSService } from './..//constants';
-import { PassportJwtGuard, PAYMENT_PATTERNS } from '@tickets/shared';
+import { PAYMENT_PATTERNS } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { PaymentDto } from '@tickets/shared';
+import { PassportJwtGuard } from '../guards/jwt.gurad';
 
 @ApiBearerAuth()
 @UseGuards(PassportJwtGuard)

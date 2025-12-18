@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { ClientConfigService, secret } from '@tickets/shared';
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import { ClientConfigService } from 'src/config/client.config.service';
-
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -10,7 +9,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET as string,
+      secretOrKey: secret,
     });
   }
   override validate(payload: {
