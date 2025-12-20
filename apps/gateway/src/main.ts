@@ -7,18 +7,7 @@ import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
-function setupSwagger(app: INestApplication, globalPrefix?: string) {
-  const swaggerDocument = new DocumentBuilder()
-    .setTitle('tickets')
-    .setDescription('A ticket reservation system demo')
-    .addBearerAuth()
-    .setVersion('0.1-alpha-demo')
-    .build();
-  const documentFactory = () =>
-    SwaggerModule.createDocument(app, swaggerDocument);
-  SwaggerModule.setup(`${globalPrefix}/docs`, app, documentFactory);
-}
+import { Filter } from './filter/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +16,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new Filter());
 
   //ignores global prefix
   setupSwagger(app, globalPrefix);
@@ -40,3 +30,15 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+function setupSwagger(app: INestApplication, globalPrefix?: string) {
+  const swaggerDocument = new DocumentBuilder()
+    .setTitle('tickets')
+    .setDescription('A ticket reservation system demo')
+    .addBearerAuth()
+    .setVersion('0.1-alpha-demo')
+    .build();
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, swaggerDocument);
+  SwaggerModule.setup(`${globalPrefix}/docs`, app, documentFactory);
+}

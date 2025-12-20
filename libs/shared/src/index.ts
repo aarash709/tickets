@@ -15,3 +15,5 @@ export * from './event/event.dto';
 
 export * from './auth/auth.dto';
 export * from './auth/constants';
+
+export * from './filter/rpc.exception.filter';
