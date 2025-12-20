@@ -16,6 +16,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@tickets/source"]
+    "customConditions": ["@tickets/source"],
+    "paths": {
+      "@tickets/shared":["./libs/shared/src/index.js"]
+    }
   }
 }
