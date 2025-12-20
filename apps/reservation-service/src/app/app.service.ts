@@ -10,6 +10,7 @@ import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { RedlockService } from 'nestjs-redlock-universal';
 import { LockHandle } from 'redlock-universal';
 import { v7 as uuid7 } from 'uuid';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
@@ -31,7 +32,7 @@ export class AppService {
 
   async reserve(data: { seatId: string; userId: number }) {
     const lockKey = `seatLock:${data.seatId}`;
-    const ttl = 60 * 5 * 1000;
+    const ttl = 60 * 2 * 1000;
     const reservationId = uuid7();
 
     let lock: LockHandle;
@@ -40,7 +41,10 @@ export class AppService {
       lock = await this.redlock.acquire(lockKey);
       Logger.log(`lock:${lock.acquiredAt}`);
     } catch (error) {
-      throw new ConflictException(`Seat already reserved${error}`);
+      throw new RpcException({
+        statusCode: 409,
+        message: `Seat is beign processed${error}`,
+      });
     }
 
     try {
@@ -49,7 +53,11 @@ export class AppService {
           where: { seatId: data.seatId, status: 'AVAILABLE' },
         });
 
-        if (!seat) throw Error('seat not availible');
+        if (!seat)
+          throw new RpcException({
+            statusCode: 410,
+            message: 'Seat is no longer available',
+          });
 
         const reservedSeat = await tx.seat.update({
           where: { seatId: seat?.seatId },
@@ -74,7 +82,10 @@ export class AppService {
       };
     } catch (error) {
       await this.redlock.release(lockKey, lock);
-      throw Error(`reservation failed!'${error}`);
+      throw new RpcException({
+        statusCode: 500,
+        message: `reservation failed!'${error}`,
+      });
     }
   }
 
@@ -96,7 +107,7 @@ export class AppService {
     try {
       await this.database.seat.update({
         where: { seatId: data.seatId },
-        data: { status: 'AVAILABLE' },
+        data: { status: 'BOOKED' },
       });
 
       await this.redlock.release(lockKey, lock);

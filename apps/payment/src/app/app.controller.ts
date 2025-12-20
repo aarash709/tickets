@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { InventoryDto, PAYMENT_PATTERNS } from '@tickets/shared';
+import { PAYMENT_PATTERNS } from '@tickets/shared';
 
 @Controller()
 export class AppController {
