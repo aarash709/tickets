@@ -20,7 +20,7 @@ export class AuthController {
   @Post('signup')
   async signup(@Body() signupDto: { email: string; password: string }) {
     return await firstValueFrom(
-      this.natsService.send<{ token: '' }, typeof signupDto>(
+      this.natsService.send<{ access_token: '' }, typeof signupDto>(
         'auth.signup',
         signupDto,
       ),
@@ -30,7 +30,7 @@ export class AuthController {
   @Post('logout')
   async logout(@Body() signupDto: { email: string; password: string }) {
     return await firstValueFrom(
-      this.natsService.send<{ token: '' }, typeof signupDto>(
+      this.natsService.send<{ access_token: '' }, typeof signupDto>(
         'auth.logout',
         signupDto,
       ),

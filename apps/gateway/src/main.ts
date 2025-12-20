@@ -8,17 +8,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-function setupSwagger(app: INestApplication) {
+function setupSwagger(app: INestApplication, globalPrefix?: string) {
   const swaggerDocument = new DocumentBuilder()
     .setTitle('tickets')
     .setDescription('A ticket reservation system demo')
     .addBearerAuth()
-    .setBasePath('/docs')
     .setVersion('0.1-alpha-demo')
     .build();
   const documentFactory = () =>
     SwaggerModule.createDocument(app, swaggerDocument);
-  SwaggerModule.setup('docs', app, documentFactory);
+  SwaggerModule.setup(`${globalPrefix}/docs`, app, documentFactory);
 }
 
 async function bootstrap() {
@@ -30,7 +29,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   //ignores global prefix
-  setupSwagger(app);
+  setupSwagger(app, globalPrefix);
 
   const port = process.env.GATEWAY_PORT || 3000;
 

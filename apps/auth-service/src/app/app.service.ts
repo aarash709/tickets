@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { DatabaseService } from '../database/database.service';
 import { AuthDto } from '@tickets/shared';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
@@ -13,6 +14,13 @@ export class AppService {
 
   async signup(data: AuthDto) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
+    const userExists = await this.database.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (userExists?.email === data.email)
+      throw new RpcException('User already exists!');
+
     const createdUser = await this.database.user.create({
       data: {
         ...data,
@@ -32,14 +40,14 @@ export class AppService {
       where: { email: data.email },
     });
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials!');
+      throw new RpcException('Invalid credentials!');
     }
 
     const hashedPassword = user.password;
-    const comprePass = await bcrypt.compare(data.password, hashedPassword);
+    const isPasswordValid = await bcrypt.compare(data.password, hashedPassword);
 
-    if (!comprePass) {
-      throw new UnauthorizedException('Invalid credentials!');
+    if (!isPasswordValid) {
+      throw new RpcException('Invalid credentials!');
     }
     return this.generateJWT({
       sub: user.id.toString(),
@@ -62,6 +70,4 @@ export class AppService {
   async logout() {
     return '';
   }
-
-
 }
