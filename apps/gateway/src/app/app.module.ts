@@ -15,12 +15,21 @@ import { AuthController } from './auth/auth.controller';
 import { JWTStrategy } from './guards/jwt.strategy';
 import { PassportJwtGuard } from './guards/jwt.gurad';
 import { JwtModule } from '@nestjs/jwt';
+import { seconds, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
     CacheModule.register({ isGlobal: false }),
     JwtModule.register({
       secret: secret,
+    }),
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: seconds(60),
+          limit: 10,
+        },
+      ],
     }),
     ClientConfigModule,
   ],
