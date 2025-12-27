@@ -21,6 +21,7 @@ import {
 } from '@tickets/shared';
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
 import { PassportJwtGuard } from '../guards/jwt.gurad';
+import { Role, Roles } from '../guards/roles.decorator';
 
 @ApiBearerAuth()
 @UseGuards(PassportJwtGuard)
@@ -76,12 +77,14 @@ export class SeatsController {
   }
 
   @Post('event/new')
+  @Roles([Role.Admin, Role.Moderator])
   async addEvent(@Body() eventData: CreateEventDto) {
     this.natsClient.emit(EVENT_PATTERNS.ADD_EVENT, eventData);
     return { test: 'test' };
   }
 
   @Patch('event')
+  @Roles([Role.Admin, Role.Moderator])
   async modifyEvent(@Body() eventData: Partial<CreateEventDto>) {
     // this.natsClient.emit(EVENT_PATTERNS.UPDATE_EVENT, eventData);
     return eventData;

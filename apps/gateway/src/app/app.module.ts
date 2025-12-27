@@ -17,6 +17,7 @@ import { PassportJwtGuard } from './guards/jwt.gurad';
 import { JwtModule } from '@nestjs/jwt';
 import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -59,6 +60,10 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: 'roles_guard',
+      useClass: RolesGuard,
     },
     JWTStrategy,
     PassportJwtGuard,
