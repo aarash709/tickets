@@ -15,7 +15,8 @@ import { AuthController } from './auth/auth.controller';
 import { JWTStrategy } from './guards/jwt.strategy';
 import { PassportJwtGuard } from './guards/jwt.gurad';
 import { JwtModule } from '@nestjs/jwt';
-import { seconds, ThrottlerModule } from '@nestjs/throttler';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -26,8 +27,14 @@ import { seconds, ThrottlerModule } from '@nestjs/throttler';
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: seconds(60),
+          name: 'short',
+          ttl: seconds(5),
           limit: 10,
+        },
+        {
+          name: 'long',
+          ttl: seconds(30),
+          limit: 30,
         },
       ],
     }),
@@ -48,6 +55,10 @@ import { seconds, ThrottlerModule } from '@nestjs/throttler';
         const natsOptions = config.natsOpions;
         return ClientProxyFactory.create(natsOptions);
       },
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     JWTStrategy,
     PassportJwtGuard,
