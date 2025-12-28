@@ -12,12 +12,12 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
       secretOrKey: secret,
     });
   }
-  override validate(payload: {
+  override async validate(payload: {
     sub: string;
     displayName: string;
     email: string;
     role: string;
-  }): unknown {
+  }) {
     return payload;
   }
 }

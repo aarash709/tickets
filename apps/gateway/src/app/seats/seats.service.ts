@@ -22,6 +22,7 @@ import {
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
 import { PassportJwtGuard } from '../guards/jwt.gurad';
 import { Role, Roles } from '../guards/roles.decorator';
+import { RolesGuard } from '../guards/roles.guard';
 
 @ApiBearerAuth()
 @UseGuards(PassportJwtGuard)
@@ -65,6 +66,7 @@ export class SeatsController {
 
   @ApiOperation({ description: 'Reserves a seat from an ongoing event' })
   @ApiOkResponse({ description: 'Seat reserved successfully!' })
+  @UseGuards(PassportJwtGuard, RolesGuard)
   @Post('seat/reserve')
   async reserveSeat(@Body() reserveDto: ReserveSeatDto) {
     const seat = firstValueFrom(
@@ -76,6 +78,7 @@ export class SeatsController {
     return seat;
   }
 
+  @UseGuards(PassportJwtGuard, RolesGuard)
   @Post('event/new')
   @Roles([Role.Admin, Role.Moderator])
   async addEvent(@Body() eventData: CreateEventDto) {
@@ -83,6 +86,7 @@ export class SeatsController {
     return { test: 'test' };
   }
 
+  @UseGuards(PassportJwtGuard, RolesGuard)
   @Patch('event')
   @Roles([Role.Admin, Role.Moderator])
   async modifyEvent(@Body() eventData: Partial<CreateEventDto>) {

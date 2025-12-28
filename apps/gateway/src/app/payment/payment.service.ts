@@ -17,6 +17,7 @@ export class PaymentController {
   ) {}
 
   @ApiOperation({ description: 'Pays the reserved seat' })
+  @UseGuards(PassportJwtGuard)
   @Post('seat/pay')
   async paySeat(
     @Body()

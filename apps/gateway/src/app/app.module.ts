@@ -24,6 +24,7 @@ import { RolesGuard } from './guards/roles.guard';
     CacheModule.register({ isGlobal: false }),
     JwtModule.register({
       secret: secret,
+      signOptions: { expiresIn: '5m' },
     }),
     ThrottlerModule.forRoot({
       throttlers: [
@@ -61,12 +62,9 @@ import { RolesGuard } from './guards/roles.guard';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    {
-      provide: 'roles_guard',
-      useClass: RolesGuard,
-    },
-    JWTStrategy,
     PassportJwtGuard,
+    RolesGuard,
+    JWTStrategy,
   ],
 })
 export class AppModule {}
