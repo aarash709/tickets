@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { Role, Roles } from './guards/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
-import { PassportJwtGuard } from './guards/jwt.gurad';
+import { PassportJwtGuard } from './guards/jwt.guard';
 
 @Controller()
 export class AppController {

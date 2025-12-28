@@ -13,7 +13,7 @@ import { SeatsController } from './seats/seats.service';
 import { PaymentController } from './payment/payment.service';
 import { AuthController } from './auth/auth.controller';
 import { JWTStrategy } from './guards/jwt.strategy';
-import { PassportJwtGuard } from './guards/jwt.gurad';
+import { PassportJwtGuard } from './guards/jwt.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';

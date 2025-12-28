@@ -5,7 +5,7 @@ import { PAYMENT_PATTERNS } from '@tickets/shared';
 import { firstValueFrom } from 'rxjs';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { PaymentDto } from '@tickets/shared';
-import { PassportJwtGuard } from '../guards/jwt.gurad';
+import { PassportJwtGuard } from '../guards/jwt.guard';
 
 @ApiBearerAuth()
 @UseGuards(PassportJwtGuard)

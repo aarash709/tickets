@@ -20,7 +20,7 @@ import {
   SEAT_PATTERNS,
 } from '@tickets/shared';
 import { ReserveSeatResultDto } from '../dto/reserve.seat.result.dto';
-import { PassportJwtGuard } from '../guards/jwt.gurad';
+import { PassportJwtGuard } from '../guards/jwt.guard';
 import { Role, Roles } from '../guards/roles.decorator';
 import { RolesGuard } from '../guards/roles.guard';
 
