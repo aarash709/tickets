@@ -23,9 +23,9 @@ export class AppService {
       });
       return this.generateJWT({
         sub: createdUser.id.toString(),
-        // displayName: createdUser.displayName,
+        displayName: createdUser.displayName,
         email: createdUser.email,
-        // role: createdUser.role,
+        role: createdUser.role,
       });
     } catch (error) {
       throw new RpcException({
@@ -55,17 +55,17 @@ export class AppService {
     }
     return this.generateJWT({
       sub: user.id.toString(),
-      // displayName: user.displayName,
+      displayName: user.displayName,
       email: user.email,
-      // role: user.role,
+      role: user.role,
     });
   }
 
   async generateJWT(user: {
     sub: string;
-    // displayName: string;
+    displayName: string;
     email: string;
-    // role: string;
+    role: string;
   }) {
     const token = await this.jwtservice.signAsync(user);
     return { access_token: token };
