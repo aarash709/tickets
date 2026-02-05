@@ -1,11 +1,12 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { Role, Roles } from './guards/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { PassportJwtGuard } from './guards/jwt.guard';
 
 @Controller()
+@ApiBearerAuth()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
